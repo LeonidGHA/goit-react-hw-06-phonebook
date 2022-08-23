@@ -1,4 +1,5 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
+
 import Notiflix from 'notiflix';
 import css from './App.module.css';
 
@@ -6,33 +7,23 @@ import Forms from './Forms';
 import ContactsList from './ContactsList';
 import Filter from './Filter';
 
-class App extends Component {
-  state = {
-    contacts: [],
-    filter: '',
-  };
+function App() {
+  const [contacts, setContacts] = useState([]);
+  const [filter, setFilter] = useState('');
 
-  componentDidMount() {
-    // console.log('didmount');
+  useEffect(() => {
     const localContacts = localStorage.getItem('contacts');
     const localParsedCont = JSON.parse(localContacts);
-
     if (localParsedCont) {
-      this.setState({ contacts: localParsedCont });
+      setContacts(localParsedCont);
     }
-  }
+  }, []);
 
-  componentDidUpdate(prevProps, prevState) {
-    // console.log('didupdate');
+  useEffect(() => {
+    window.localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
-    if (this.state.contacts !== prevState.contacts) {
-      // console.log('work');
-      localStorage.setItem('contacts', JSON.stringify(this.state.contacts));
-    }
-  }
-
-  submitDataForm = data => {
-    const { contacts } = this.state;
+  const submitDataForm = data => {
     if (contacts.find(el => el.name === data.name)) {
       Notiflix.Report.warning(
         `Warning`,
@@ -42,51 +33,41 @@ class App extends Component {
       return;
     }
     Notiflix.Notify.success('You have a new Contact');
-    this.setState(prevState => ({
-      contacts: [...prevState.contacts, data],
-    }));
+    console.log(data);
+    setContacts(prevState => [...prevState, data]);
   };
 
-  textFilterWrite = e => {
-    this.setState({
-      filter: e.currentTarget.value,
-    });
+  const textFilterWrite = e => {
+    setFilter(e.target.value);
   };
 
-  filterState = () => {
-    const { contacts, filter } = this.state;
+  const filterState = () => {
     return contacts.filter(el =>
       el.name.toLowerCase().includes(filter.toLowerCase())
     );
   };
+  const renderFiterItem = filterState();
 
-  deleteContacts = e => {
-    const { contacts } = this.state;
+  const deleteContacts = e => {
     const newArr = contacts.filter(el => el.id !== e.target.id);
     Notiflix.Notify.success('Contact is delete');
-    return this.setState({
-      contacts: newArr,
-    });
+    return setContacts(newArr);
   };
 
-  render() {
-    const { contacts } = this.state;
-    const renderFiterItem = this.filterState();
-    return (
-      <div className={css.container}>
-        <h1 className={css.title}>Phonebook</h1>
-        <Forms onSubmit={this.submitDataForm} />
-        <h2 className={css.title}>Contacts</h2>
-        <Filter onWrite={this.textFilterWrite} />
-        {contacts.length !== 0 && (
-          <ContactsList
-            contacts={renderFiterItem}
-            deleteContacts={this.deleteContacts}
-          />
-        )}
-      </div>
-    );
-  }
+  return (
+    <div className={css.container}>
+      <h1 className={css.title}>Phonebook</h1>
+      <Forms onSubmit={submitDataForm} />
+      <h2 className={css.title}>Contacts</h2>
+      <Filter onWrite={textFilterWrite} value={filter} />
+      {contacts.length !== 0 && (
+        <ContactsList
+          contacts={renderFiterItem}
+          deleteContacts={deleteContacts}
+        />
+      )}
+    </div>
+  );
 }
 
 export default App;

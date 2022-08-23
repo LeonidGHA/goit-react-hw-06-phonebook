@@ -1,13 +1,13 @@
 import css from './App.module.css';
 import PropTypes from 'prop-types';
-function Filter({ onWrite }) {
+function Filter({ onWrite, value }) {
   return (
     <input
       type="text"
       className={css.input}
       name="filter"
       placeholder="Serch Contacts"
-      //   value={this.state.filter}
+      value={value}
       onChange={onWrite}
     />
   );
