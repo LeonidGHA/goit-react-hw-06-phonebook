@@ -9,4 +9,8 @@ const items = createReducer([], {
     state.filter(el => el.id !== payload),
 });
 
-export default combineReducers({ items });
+const filter = createReducer('', {
+  [action.changeFilter]: (_, { payload }) => payload,
+});
+
+export default combineReducers({ items, filter });

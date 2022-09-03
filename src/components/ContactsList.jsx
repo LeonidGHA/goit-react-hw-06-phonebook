@@ -1,17 +1,17 @@
 import css from './App.module.css';
 import PropTypes from 'prop-types';
-import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import todosActions from 'redux/todos/todos-actions';
+function ContactsList({ renderFilterContacts }) {
+  const dispatch = useDispatch();
 
-function ContactsList({ contacts, deleteContacts }) {
-  const contactsArr = useSelector(state => state.contacts.items);
-
-  const renderContact = contactsArr.map(({ id, name, number }) => (
+  const renderContact = renderFilterContacts.map(({ id, name, number }) => (
     <li className={css.item} key={id}>
       {name} : {number}
       <button
         className={css.listBtn}
         type="button"
-        onClick={deleteContacts}
+        onClick={e => dispatch(todosActions.deleteContact(e.target.id))}
         id={id}
       >
         X
@@ -23,14 +23,13 @@ function ContactsList({ contacts, deleteContacts }) {
 }
 
 ContactsList.propTypes = {
-  contacts: PropTypes.arrayOf(
+  contactsArr: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       number: PropTypes.string.isRequired,
     })
   ),
-  deleteContacts: PropTypes.func.isRequired,
 };
 
 export default ContactsList;

@@ -1,6 +1,6 @@
 import { createAction, nanoid } from '@reduxjs/toolkit';
 
-const addContact = createAction('todos/add', (name, number) => ({
+const addContact = createAction('contact/add', (name, number) => ({
   payload: {
     name,
     number,
@@ -8,9 +8,9 @@ const addContact = createAction('todos/add', (name, number) => ({
   },
 }));
 
-const deleteContact = createAction('todos/delete');
+const deleteContact = createAction('contact/delete');
 
-const changeFilter = createAction('todos/filter');
+const changeFilter = createAction('contact/filter');
 
 const todosActions = { addContact, changeFilter, deleteContact };
 export default todosActions;
