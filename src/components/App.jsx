@@ -7,9 +7,13 @@ import Forms from './Forms';
 import ContactsList from './ContactsList';
 import Filter from './Filter';
 
+import { useDispatch } from 'react-redux';
+import todosActions from 'redux/todos/todos-actions';
+
 function App() {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const localContacts = localStorage.getItem('contacts');
@@ -49,9 +53,11 @@ function App() {
   const renderFiterItem = filterState();
 
   const deleteContacts = e => {
-    const newArr = contacts.filter(el => el.id !== e.target.id);
-    Notiflix.Notify.success('Contact is delete');
-    return setContacts(newArr);
+    // const newArr = contacts.filter(el => el.id !== e.target.id);
+    // Notiflix.Notify.success('Contact is delete');
+    // return setContacts(newArr);
+    console.log(e.target);
+    return dispatch(todosActions.deleteContact(e.target.id));
   };
 
   return (
@@ -60,12 +66,16 @@ function App() {
       <Forms onSubmit={submitDataForm} />
       <h2 className={css.title}>Contacts</h2>
       <Filter onWrite={textFilterWrite} value={filter} />
-      {contacts.length !== 0 && (
+      {/* {contacts.length !== 0 && (
         <ContactsList
           contacts={renderFiterItem}
           deleteContacts={deleteContacts}
         />
-      )}
+      )} */}
+      <ContactsList
+        contacts={renderFiterItem}
+        deleteContacts={deleteContacts}
+      />
     </div>
   );
 }

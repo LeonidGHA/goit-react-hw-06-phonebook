@@ -1,11 +1,16 @@
 import css from './App.module.css';
 import { useState } from 'react';
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
 import PropTypes from 'prop-types';
+
+import { useDispatch, useSelector } from 'react-redux';
+import todosActions from 'redux/todos/todos-actions';
 
 function Forms({ onSubmit }) {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
+  const dispatch = useDispatch();
+  const contactsArr = useSelector(state => state.contacts.items);
 
   const textWrite = e => {
     const { name, value } = e.target;
@@ -13,10 +18,9 @@ function Forms({ onSubmit }) {
     switch (name) {
       case 'name':
         setName(value);
-        console.log(`im Name`);
+
         break;
       case 'number':
-        console.log(`im Number`);
         setNumber(value);
         break;
       default:
@@ -26,12 +30,18 @@ function Forms({ onSubmit }) {
 
   const onClickSubmit = e => {
     e.preventDefault();
-    const data = {
-      name,
-      number,
-      id: nanoid(5),
-    };
-    onSubmit(data);
+    // const data = {
+    //   name,
+    //   number,
+    //   id: nanoid(5),
+    // };
+    // onSubmit(data);
+    if (contactsArr.find(el => el.name === name)) {
+      console.log(`i found copy`);
+      reset();
+      return;
+    }
+    dispatch(todosActions.addContact(name, number));
 
     reset();
   };

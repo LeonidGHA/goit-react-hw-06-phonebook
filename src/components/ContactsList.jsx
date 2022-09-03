@@ -1,7 +1,11 @@
 import css from './App.module.css';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+
 function ContactsList({ contacts, deleteContacts }) {
-  const renderContact = contacts.map(({ id, name, number }) => (
+  const contactsArr = useSelector(state => state.contacts.items);
+
+  const renderContact = contactsArr.map(({ id, name, number }) => (
     <li className={css.item} key={id}>
       {name} : {number}
       <button
