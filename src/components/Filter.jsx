@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import todosActions from 'redux/todos/todos-actions';
 
-function Filter({ onWrite, value }) {
+function Filter() {
   const dispatch = useDispatch();
   const filterValue = useSelector(state => state.contacts.filter);
   return (
@@ -20,6 +20,6 @@ function Filter({ onWrite, value }) {
 }
 
 Filter.propTypes = {
-  onWrite: PropTypes.func,
+  filterValue: PropTypes.string,
 };
 export default Filter;

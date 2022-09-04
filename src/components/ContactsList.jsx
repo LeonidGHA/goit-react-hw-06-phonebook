@@ -4,7 +4,6 @@ import { useDispatch } from 'react-redux';
 import todosActions from 'redux/todos/todos-actions';
 function ContactsList({ renderFilterContacts }) {
   const dispatch = useDispatch();
-
   const renderContact = renderFilterContacts.map(({ id, name, number }) => (
     <li className={css.item} key={id}>
       {name} : {number}
@@ -23,7 +22,7 @@ function ContactsList({ renderFilterContacts }) {
 }
 
 ContactsList.propTypes = {
-  contactsArr: PropTypes.arrayOf(
+  renderFilterContacts: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,

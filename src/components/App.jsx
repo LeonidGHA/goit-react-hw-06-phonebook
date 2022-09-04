@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 import Notiflix from 'notiflix';
 import css from './App.module.css';
 
@@ -14,17 +12,6 @@ function App() {
   const dispatch = useDispatch();
   const contactsArr = useSelector(state => state.contacts.items);
   const filterValue = useSelector(state => state.contacts.filter);
-  // useEffect(() => {
-  //   const localContacts = localStorage.getItem('contacts');
-  //   const localParsedCont = JSON.parse(localContacts);
-  //   if (localParsedCont) {
-  //     setContacts(localParsedCont);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   window.localStorage.setItem('contacts', JSON.stringify(contacts));
-  // }, [contacts]);
 
   const submitDataForm = data => {
     const { name, number } = data;
