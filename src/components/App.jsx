@@ -8,10 +8,12 @@ import Filter from './Filter';
 import { useDispatch, useSelector } from 'react-redux';
 import todosActions from 'redux/todos/todos-actions';
 
+import { filterStore, itemsStore } from 'redux/todos/todos-selector';
+
 function App() {
   const dispatch = useDispatch();
-  const contactsArr = useSelector(state => state.contacts.items);
-  const filterValue = useSelector(state => state.contacts.filter);
+  const contactsArr = useSelector(itemsStore);
+  const filterValue = useSelector(filterStore);
 
   const submitDataForm = data => {
     const { name, number } = data;

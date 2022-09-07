@@ -4,9 +4,11 @@ import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import todosActions from 'redux/todos/todos-actions';
 
+import { filterStore } from 'redux/todos/todos-selector';
+
 function Filter() {
   const dispatch = useDispatch();
-  const filterValue = useSelector(state => state.contacts.filter);
+  const filterValue = useSelector(filterStore);
   return (
     <input
       type="text"
